@@ -42,6 +42,7 @@ impl Cpu {
     }
 
     fn execute(&mut self, instruction: u32) {
+        let immediate = instruction;
         let opcode = instruction & 0x7f; // 7 bits
         let rd = ((instruction >> 7) & 0x1f) as usize; // 5 bits
         #[allow(unused_variables)]
@@ -53,10 +54,13 @@ impl Cpu {
 
         match opcode {
             // IMMEDIATE
+            0b0110111 => {
+                // LUI
+                self.regs[rd] = immediate & 0xFFFFF000;
+            }
             0b0010011 => {
                 // ADDI
-                let immediate = instruction >> 20;
-                self.regs[rd] = self.regs[rs1].wrapping_add(immediate);
+                self.regs[rd] = self.regs[rs1].wrapping_add((immediate as i32 >> 20) as u32);
             }
             // REGULAR
             0b0110011 => {
