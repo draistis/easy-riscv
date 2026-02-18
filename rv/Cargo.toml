@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+riscv-asm = { path = "../riscv-asm" }
+riscv-emu = { path = "../riscv-emu" }
+anyhow = { workspace = true }
+clap = { version = "4.5", features = ["derive"] }
